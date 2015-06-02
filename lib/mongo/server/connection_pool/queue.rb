@@ -164,6 +164,7 @@ module Mongo
 
         def create_connection
           if @connections < max_size
+            Logger.debug "CONN_POOL", "Creating new connection", nil
             @connections += 1
             @block.call
           end
