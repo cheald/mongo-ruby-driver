@@ -172,7 +172,7 @@ module Mongo
             :key => field_name.to_s,
             :query => selector },
             options
-          ).documents.first['values']
+          ).documents.first['values'.freeze]
         end
 
         # The index that MongoDB will be forced to use for the query.
@@ -377,15 +377,17 @@ module Mongo
         end
 
         def special_selector
-          SPECIAL_FIELDS.reduce({}) do |hash, (key, method)|
+          SPECIAL_FIELDS.each_with_object({}) do |(key, method), hash|
             value = send(method)
             hash[key] = value if value
-            hash
           end
         end
 
         def to_return
-          [ limit || batch_size, batch_size || limit ].min
+          l = limit
+          b = batch_size || l || 0
+          l ||= b
+          l < b ? l : b
         end
 
         def validate_doc!(doc)

@@ -31,10 +31,10 @@ module Mongo
       end
 
       def update_options(context)
-        if context.slave_ok?
-          options.merge(flags: [:slave_ok])
-        elsif !context.mongos? && read.slave_ok?
-          options.merge(flags: [:slave_ok])
+        if context.slave_ok? || (!context.mongos? && read.slave_ok?)
+          options.dup.tap do |opts|
+            (opts[:flags] ||= []) << :slave_ok
+          end
         else
           options
         end
