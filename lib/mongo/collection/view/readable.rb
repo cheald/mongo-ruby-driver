@@ -341,13 +341,23 @@ module Mongo
           configure(:sort, spec)
         end
 
+        # Set one or more flags on this query cursor
+        #
+        # @example Set the tailable_cursor flag
+        #   view.flagged([:tailable_cursor, :await_data])
+        #
+        # @return [ Hash, View ] Either the flags setting or a new +View+.
+        def flags(flags = nil)
+          flags && configure_flag(flags) || get_flags
+        end
+
         private
 
         def default_read(read = nil)
           options[:read] || read_preference
         end
 
-        def flags
+        def get_flags
           @flags ||= (!primary? ? [ :slave_ok ] : [])
         end
 

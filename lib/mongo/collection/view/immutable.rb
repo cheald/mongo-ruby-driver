@@ -32,9 +32,9 @@ module Mongo
           new(options.merge(field => value))
         end
 
-        def configure_flag(flag)
+        def configure_flag(flags)
           new(options.dup).tap do |view|
-            view.send(:flags).push(flag)
+            view.send(:get_flags).tap {|f| f.replace((f + Array(flags)).uniq & Protocol::Query::FLAGS) }
           end
         end
       end
