@@ -34,7 +34,7 @@ module Mongo
 
         def configure_flag(flags)
           new(options.dup).tap do |view|
-            view.send(:get_flags).tap {|f| f.replace((f + Array(flags)).uniq & Protocol::Query::FLAGS) }
+            view.send(:get_flags).tap {|f| f.replace( (f + Array(flags)) & Protocol::Query::FLAGS )}
           end
         end
       end
