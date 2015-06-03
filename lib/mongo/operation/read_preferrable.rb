@@ -20,6 +20,11 @@ module Mongo
     # @since 2.0.0
     module ReadPreferrable
 
+      # The constant for slave ok flags.
+      #
+      # @since 2.0.5
+      SLAVE_OK = :slave_ok
+
       private
 
       def update_selector(context)
@@ -33,7 +38,7 @@ module Mongo
       def update_options(context)
         if context.slave_ok? || (!context.mongos? && read.slave_ok?)
           options.dup.tap do |opts|
-            (opts[:flags] ||= []) << :slave_ok
+            (opts[:flags] ||= []) << SLAVE_OK
           end
         else
           options
