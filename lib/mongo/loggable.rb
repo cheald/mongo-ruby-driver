@@ -45,7 +45,7 @@ module Mongo
       rescue Exception => e
         raise e
       ensure
-        if Logger.allow? level
+        if Logger.allow?(level)
           runtime = format("%.4fms", (Time.now.to_f - started.to_f) * 1000.0)
           operations.each do |operation|
             Logger.log(level, prefix, log_inspect(operation), runtime)
