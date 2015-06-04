@@ -25,7 +25,7 @@ module Mongo
       def update_doc?(doc)
         !doc.empty? &&
           doc.respond_to?(:keys) &&
-          doc.keys.first.to_s =~ /^\$/
+          doc.keys.first.to_s =~ /\A\$/
       end
 
       def validate_update_op!(type, u)

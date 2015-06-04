@@ -23,7 +23,7 @@ module Mongo
       private
 
       def replacement_doc?(doc)
-        doc.respond_to?(:keys) && doc.keys.all?{|key| key !~ /^\$/}
+        doc.respond_to?(:keys) && doc.keys.all?{|key| key !~ /\A\$/}
       end
 
       def validate_replace_op!(r, type)
