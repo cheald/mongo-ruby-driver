@@ -120,8 +120,9 @@ module Mongo
         @logger = other
       end
 
+      LOG_TEMPLATE = "%s | %s | runtime: %s".freeze
       def log(level, prefix, message, runtime)
-        logger.send(level, format("%s | %s | runtime: %s".freeze, prefix, message, runtime))
+        logger.send(level, format(LOG_TEMPLATE, prefix, message, runtime))
       end
 
       def allow?(level)
